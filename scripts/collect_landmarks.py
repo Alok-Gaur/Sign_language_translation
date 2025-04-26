@@ -28,7 +28,7 @@ def main():
         time.sleep(2)
 
         create_directory(label) #Create directory for current label
-        # keyboard.read_key()     #Pause until press any key (for preperation of pose)
+        keyboard.read_key()     #Pause until press any key (for preperation of pose)
         
         collected = 0
         while collected < SAMPLE_PER_CLASS:
