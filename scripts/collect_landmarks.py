@@ -7,7 +7,7 @@ import cv2
 import time
 import numpy as np
 from mediapipe_utils.hand_landmark_extractor import extract_landmark
-from mediapipe_utils.general_utils import create_directory
+from scripts.general_utils import create_directory
 
 SAMPLE_PER_CLASS = 50
 BASE_DIR = 'data'
@@ -33,7 +33,7 @@ def main():
         collected = 0
         while collected < SAMPLE_PER_CLASS:
             ret, frame = cap.read()
-            frame = cv2.flip(frame, 1)
+            frame = cv2.flip(frame, 1) 
             landmark = extract_landmark(frame)
 
             if landmark:
