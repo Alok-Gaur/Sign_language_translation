@@ -18,6 +18,6 @@ import pickle
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"..")))
-with open('results/training_data.pkl', 'rb') as f:
+with open('results/training_data2.pkl', 'rb') as f:
     data = pickle.load(f)
     print(data)

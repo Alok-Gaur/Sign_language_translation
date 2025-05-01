@@ -7,12 +7,12 @@ import tensorflow as tf
 import mediapipe as mp
 import numpy as np
 from collections import deque
-from models.sign_language_model import SignLanguageModel
+from models.sign_language_model import SignLanguageModel2
 
 class SignLanguageTranslator:
     def __init__(self, model_path = "saved_models/sign_language_model_75_1.45.keras", buffer_size=15, weights_given=True):
         if weights_given:
-            self.model = SignLanguageModel(26)
+            self.model = SignLanguageModel2(26)
             self.model.build((None, 63))
             self.model.load_weights(model_path)
         else:
@@ -88,4 +88,4 @@ class SignLanguageTranslator:
         cv2.destroyAllWindows()
         
 
-new_class=SignLanguageTranslator().run()
+new_class=SignLanguageTranslator(model_path='saved_models/model_2_weights1/sign_language_model_55_0.42.keras').run()

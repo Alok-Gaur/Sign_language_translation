@@ -33,4 +33,4 @@ def create_dataset(data_dir):
         landmark = tf.py_function(load_numpy, inp=[fp], Tout=tf.float32)
         landmark.set_shape([63])
         return landmark, tf.one_hot(label, depth=len(class_names))
-    return dataset.map(map_func).shuffle(200).batch(16), class_names
+    return dataset.map(map_func).shuffle(1300).batch(16), class_names
