@@ -14,10 +14,12 @@ train_dataset = dataset.take(train_size).prefetch(tf.data.AUTOTUNE)
 val_dataset = dataset.skip(train_size).prefetch(tf.data.AUTOTUNE)
 
 model = SignLanguageModel(num_classes)
-model.summary()
-model_callback = tf.keras.callbacks.ModelCheckpoint(filepath = 'models/sign_language_model_{epoch:02d}_{val_loss:.2f}.h5',
+
+#Checkpoint to save the best weights
+model_callback = tf.keras.callbacks.ModelCheckpoint(filepath = 'saved_models/model_2_weights/sign_language_model_{epoch:02d}_{val_loss:.2f}.keras',
                                                     monitor = 'val_loss',
                                                     save_best_only=True,
+                                                    save_weights_only=True,
                                                     mode='min',
                                                     verbose=1)
 
@@ -25,9 +27,10 @@ model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-history = model.fit(train_dataset, validation_data=val_dataset, epochs=100, verbose=1, callbacks=[model_callback])
-# model.save('models/sign_language_model3.keras')
+history = model.fit(train_dataset, validation_data=val_dataset, epochs=70, verbose=1, callbacks=[model_callback])
+model.save('saved_models/sign_language_model4.keras')
+
 
 # Saving the parameter for visulaization
-with open("models/training_data.bat", 'wb') as f:
-    pickle.dump(history, f)
+with open("results/training_data.pkl", 'wb') as f:
+    pickle.dump(history.history, f)

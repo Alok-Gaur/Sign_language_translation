@@ -7,11 +7,16 @@ import tensorflow as tf
 import mediapipe as mp
 import numpy as np
 from collections import deque
-
+from models.sign_language_model import SignLanguageModel
 
 class SignLanguageTranslator:
-    def __init__(self, model_path = "models/sign_language_model.keras", buffer_size=15):
-        self.model = tf.keras.models.load_model(model_path)
+    def __init__(self, model_path = "saved_models/sign_language_model_75_1.45.keras", buffer_size=15, weights_given=True):
+        if weights_given:
+            self.model = SignLanguageModel(26)
+            self.model.build((None, 63))
+            self.model.load_weights(model_path)
+        else:
+            self.model = tf.keras.models.load_model(model_path)
         self.label = list(string.ascii_uppercase)
         self.buffer_size = buffer_size
         self.prediction_buffer = deque(maxlen=buffer_size)

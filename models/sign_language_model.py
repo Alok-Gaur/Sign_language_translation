@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, BatchNormalization, LSTM
+from tensorflow.keras.layers import Dense, BatchNormalization, LSTM, Dropout
 from tensorflow.keras import Model
 
 class SignLanguageModel(Model):
@@ -19,20 +19,29 @@ class SignLanguageModel(Model):
         self.batch_norm2 = BatchNormalization()
         self.batch_norm3 = BatchNormalization()
 
+        self.dropout1 = Dropout(0.2)
+        self.dropout2 = Dropout(0.3)
+    
     def call(self, inputs, training=False):
         x1 = self.dense_input(inputs)
         x1 = self.batch_norm1(x1, training=training)
         x1 = self.dense1(x1)
+        x1 = self.dropout1(x1)
         x2 = self.dense2(x1)
         x3 = self.dense3(x1)
         
-        x = tf.add(x2,x3, name="add")
+        x = tf.concat([x2,x3], axis=1, name="concat")
 
         x = self.batch_norm2(x, training=training)
         x = tf.expand_dims(x, axis=1)
         x = self.lstm(x)
-
+        x = self.dropout2(x)
         x = self.post_dense(x)
         x = self.batch_norm3(x, training=training)
         return self.output_layer(x)
 
+
+#Only to get the model summary
+# model = SignLanguageModel(3)
+# model.build((None, 63))
+# model.summary()
